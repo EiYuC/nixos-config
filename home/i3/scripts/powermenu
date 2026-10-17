@@ -1,0 +1,14 @@
+#!/bin/sh
+choice=$(printf 'Lock\nLogout\nSuspend\nReboot\nPower off' | rofi -dmenu -i -p Session -theme ~/.config/rofi/configs/powermenu.rasi) || exit 0
+case "$choice" in
+    Lock) exec i3lock --color=1e222a ;;
+    Suspend) exec systemctl suspend ;;
+    Logout|Reboot|"Power off")
+        confirm=$(printf 'Cancel\nConfirm' | rofi -dmenu -i -p "$choice?" -theme ~/.config/rofi/configs/powermenu.rasi) || exit 0
+        [ "$confirm" = Confirm ] || exit 0
+        case "$choice" in
+            Logout) i3-msg exit ;;
+            Reboot) systemctl reboot ;;
+            "Power off") systemctl poweroff ;;
+        esac ;;
+esac

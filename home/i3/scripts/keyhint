@@ -1,0 +1,2 @@
+#!/bin/sh
+printf '%s\n' 'Super+Enter  Terminal' 'Super+D  Applications' 'Super+Shift+Q  Close window' 'Super+H/J/K/L  Focus' 'Super+Shift+H/J/K/L  Move window' 'Super+1..0  Workspace' 'Super+Shift+1..0  Move to workspace' 'Super+F  Fullscreen' 'Super+R  Resize mode' 'Super+Ctrl+L  Lock' 'Super+Shift+E  Session menu' | rofi -dmenu -i -p Shortcuts -theme ~/.config/rofi/configs/rofikeyhint.rasi

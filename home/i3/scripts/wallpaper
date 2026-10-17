@@ -1,0 +1,7 @@
+#!/bin/sh
+wallpaper="$HOME/.local/share/wallpapers/wallpaper.jpg"
+if [ -f "$wallpaper" ]; then
+    exec feh --no-fehbg --bg-fill "$wallpaper"
+else
+    exec xsetroot -solid '#1e222a'
+fi

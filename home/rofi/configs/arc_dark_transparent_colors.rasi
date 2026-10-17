@@ -1,0 +1,2 @@
+@import "arc_dark_colors.rasi"
+* { bg: #1e222aee; }

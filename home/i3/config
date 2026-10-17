@@ -1,0 +1,21 @@
+set $mod Mod4
+font pango:monospace 14
+floating_modifier $mod
+focus_follows_mouse no
+hide_edge_borders smart
+client.focused #5294e2 #5294e2 #ffffff #5294e2 #5294e2
+client.unfocused #383c4a #383c4a #a0a0a0 #383c4a #383c4a
+include ~/.config/i3/keybindings
+
+exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP
+exec --no-startup-id fcitx5 -d
+exec --no-startup-id dunst
+exec --no-startup-id nm-applet
+exec --no-startup-id ~/.config/i3/polkit-agent
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --color=1e222a
+exec_always --no-startup-id xset s off
+exec_always --no-startup-id xset s noblank
+exec_always --no-startup-id xset -dpms
+exec_always --no-startup-id systemctl --user start i3-lid-display.service
+exec_always --no-startup-id sh ~/.config/i3/scripts/wallpaper
+exec_always --no-startup-id systemctl --user restart polybar.service

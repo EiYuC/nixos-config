@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Poll the lid state so opening the lid after resume is handled even if the
+# ACPI event arrived while X11 was suspended. Change only the internal panel.
+panel=$(xrandr --query | awk '$2 == "connected" && $1 ~ /^(eDP|LVDS|DSI)/ { print $1; exit }')
+[ -n "$panel" ] || exit 0
+
+previous=open
+while true; do
+    state=open
+    for lid in /proc/acpi/button/lid/*/state; do
+        if grep -q closed "$lid" 2>/dev/null; then
+            state=closed
+        fi
+    done
+    if [ "$state" != "$previous" ]; then
+        if [ "$state" = closed ]; then
+            xrandr --output "$panel" --off && previous=$state
+        else
+            xrandr --output "$panel" --auto && previous=$state
+        fi
+    fi
+    sleep 1
+done

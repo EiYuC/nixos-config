@@ -1,0 +1,15 @@
+* {
+    bg: #1e222a;
+    fg: #eeeeee;
+    accent: #5294e2;
+    background-color: @bg;
+    text-color: @fg;
+    font: "monospace 12";
+}
+window { width: 40%; border: 2px; border-color: @accent; padding: 16px; }
+mainbox { spacing: 12px; }
+inputbar { spacing: 10px; padding: 8px; }
+listview { lines: 10; spacing: 4px; }
+element { padding: 8px; }
+element selected.normal { background-color: @accent; text-color: #ffffff; }
+element-text, element-icon { background-color: inherit; text-color: inherit; }

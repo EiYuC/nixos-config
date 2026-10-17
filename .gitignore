@@ -1,0 +1,9 @@
+result
+result-*
+
+# Rime runtime state: keep only custom schema/dictionary source in the repo.
+home/fcitx5/rime-data-flypy/build/
+home/fcitx5/rime-data-flypy/sync/
+home/fcitx5/rime-data-flypy/*.userdb/
+home/fcitx5/rime-data-flypy/*.userdb.txt
+home/fcitx5/rime-data-flypy/installation.yaml
