@@ -1,9 +1,19 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   programs.git = {
     enable = true;
-    userName = "Zhiheng Cai";
-    userEmail = "caizhiheng0111@icloud.com";
+    
+    lfs.enable = true;
+    # 你刚刚修改的新写法
+    settings= {
+      user = {
+        name = "EiYuC";
+        email = "caizhiheng0111@icloud.com";
+      };
+
+    };
+
+    # ... 其他配置
   };
 }

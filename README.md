@@ -59,24 +59,24 @@ HOME_MANAGER_BACKUP_EXT=nixos-migration ./result-home/activate
 
 ## i3 快捷键
 
-`Super` 是 Win 键。
+i3 主修饰键为 `Alt`（Mod1）。
 
-| 快捷键                  | 操作                             |
-| ----------------------- | -------------------------------- |
-| Super + Enter           | Kitty 终端                       |
-| Super + D               | Rofi 应用启动器                  |
-| Super + /               | 快捷键提示                       |
-| Super + H/J/K/L         | 向左/下/上/右聚焦                |
-| Super + Shift + H/J/K/L | 移动窗口                         |
-| Super + 1…0            | 工作区 1…103                    |
-| Super + Shift + 1…0    | 移动窗口到工作区                 |
-| Super + F               | 全屏                             |
-| Super + Shift + Space   | 浮动窗口                         |
-| Super + R               | 调整大小，Enter/Esc 退出         |
-| Super + Shift + Q       | 关闭窗口                         |
-| Super + Shift + C / R   | 重载配置 / 重启 i3               |
-| Super + Ctrl + L        | 锁屏                             |
-| Super + Shift + E       | 锁屏、注销、挂起、重启、关机菜单 |
+| 快捷键                | 操作                             |
+| --------------------- | -------------------------------- |
+| Alt + Enter           | Kitty 终端                       |
+| Alt + D               | Rofi 应用启动器                  |
+| Alt + /               | 快捷键提示                       |
+| Alt + H/J/K/L         | 向左/下/上/右聚焦                |
+| Alt + Shift + H/J/K/L | 移动窗口                         |
+| Alt + 1…0            | 工作区 1…103                    |
+| Alt + Shift + 1…0    | 移动窗口到工作区                 |
+| Alt + F               | 全屏                             |
+| Alt + Shift + Space   | 浮动窗口                         |
+| Alt + R               | 调整大小，Enter/Esc 退出         |
+| Alt + Shift + Q       | 关闭窗口                         |
+| Alt + Shift + C / R   | 重载配置 / 重启 i3               |
+| Alt + Ctrl + L        | 锁屏                             |
+| Alt + Shift + E       | 锁屏、注销、挂起、重启、关机菜单 |
 
 注销、重启、关机会二次确认。注销后回到 SDDM 选择桌面。
 i3 启动 Fcitx5、通知、网络托盘、权限认证代理和自动锁屏。
@@ -105,21 +105,31 @@ i3 禁用 X11 屏保、闲置熄屏和 DPMS 自动节能，系统不因闲置自
 从休眠唤醒后也会重新检查，无需依赖可能在休眠期间丢失的开盖事件。
 更改此策略需同时应用系统和 Home Manager 配置；仅应用 Home Manager 不会改变休眠行为。
 
-## 小鹤音形
+## 添加用户软件
 
-目前仓库尚未包含你的自定义词库，因此默认保留拼音，同时安装 Fcitx5-Rime。
-将你已有的小鹤音形源文件放进 `home/fcitx5/rime-data-flypy/`，包括：
+普通桌面软件放在 `home/programs/common.nix` 的 `home.packages` 列表中。例如添加
+Firefox、Zotero 或其他 nixpkgs 软件：
 
-- `*.schema.yaml`、`*.dict.yaml` 和方案依赖的 Lua 等文件。
-- `default.custom.yaml`，其 `schema_list` 使用你实际的 `schema_id`。
+```nix
+home.packages = with pkgs; [ firefox zotero ];
+```
 
-不要放入 `build/`、用户词典、同步数据或 `installation.yaml`。
-加入 Git、重新应用 Home Manager，然后在 Fcitx5 的 Rime 菜单执行“重新部署”。
-检测到 schema 后，输入法列表会默认选择 Rime，并保留拼音备选。
-源文件逐个链接到 `~/.local/share/fcitx5/rime`，编译缓存和用户词典仍可正常写入。
-KDE Wayland 由 KWin 启动 Fcitx5；i3 使用 X11 输入法环境变量。
-Kitty 的 X11 输入法需要 `GLFW_IM_MODULE=ibus`，已在用户环境与终端快捷键中配置。
-输入法启动前打开的旧应用可能需要重新打开，再使用 Ctrl+Space 切换中文。
+先确认软件在当前 nixpkgs 中存在：
+
+```sh
+nix search nixpkgs zotero
+```
+
+编辑后重新激活 Home Manager：
+
+```sh
+nix build '.#homeConfigurations."cao@nixos".activationPackage' -o result-home
+HOME_MANAGER_BACKUP_EXT=software-migration ./result-home/activate
+```
+
+激活完成后，软件会出现在 `~/.nix-profile/bin` 和应用菜单中；通常不需要重启。
+需要系统服务、内核模块或所有用户共享的软件时，才放到 NixOS 模块的
+`environment.systemPackages`，然后执行 `sudo nixos-rebuild switch --flake .#nixos`。
 
 ## 验证和更新
 

@@ -8,6 +8,8 @@
       "https://mirrors.ustc.edu.cn/nix-channels/store"
       "https://cache.nixos.org/"
     ];
+    fallback = true;
+    connect-timeout = 10;
   };
   nixpkgs.config.allowUnfree = true;
   networking.networkmanager.enable = true;
